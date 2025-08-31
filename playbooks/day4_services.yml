@@ -1,0 +1,39 @@
+- name: Install and manage SSH + Cron
+  hosts: myvm
+  become: yes
+
+  tasks:
+    - name: Install OpenSSH server
+      apt:
+        name: openssh-server
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: Install Cron
+      apt:
+        name: cron
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: Deploy custom SSH config
+      copy:
+        src: ../templates/sshd_config
+        dest: /etc/ssh/sshd_config
+      notify: Restart SSH   # 👈 Trigger handler only if file changed
+
+    - name: Deploy custom Cron job
+      copy:
+        src: ../templates/mycron
+        dest: /etc/cron.d/mycron
+      notify: Restart Cron  # 👈 Trigger handler only if file changed
+
+  handlers:
+    - name: Restart SSH
+      service:
+        name: ssh
+        state: restarted
+
+    - name: Restart Cron
+      service:
+        name: cron
+        state: restarted

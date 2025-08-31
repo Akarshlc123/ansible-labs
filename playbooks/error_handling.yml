@@ -1,0 +1,18 @@
+- name: Error handling demo
+  hosts: myvm
+  become: yes
+  tasks:
+    - block:
+        - name: Try installing wrong package
+          apt:
+            name: fakepkg
+            state: present
+      rescue:
+        - name: Install correct package
+          apt:
+            name: tree
+            state: present
+      always:
+        - name: Always print message
+          debug:
+            msg: "Play finished (with or without error)."
