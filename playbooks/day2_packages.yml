@@ -1,0 +1,11 @@
+- name: Install useful packages
+  hosts: myvm
+  become: yes   # run with sudo
+  tasks:
+    - name: Install tree and git
+      apt:
+        name:
+          - tree
+          - git
+        state: present
+      when: ansible_os_family == "Debian"
