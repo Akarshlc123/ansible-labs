@@ -1,0 +1,4 @@
+# Custom SSH config deployed by Ansible
+Port 22
+PermitRootLogin no
+PasswordAuthentication yes

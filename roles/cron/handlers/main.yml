@@ -1,0 +1,6 @@
+---
+# handlers file for roles/cron
+- name: Restart Cron
+  service:
+    name: cron
+    state: restarted

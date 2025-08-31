@@ -1,0 +1,6 @@
+- name: Configure services with roles
+  hosts: myvm
+  become: yes
+  roles:
+    - ssh
+    - cron
